@@ -58,34 +58,92 @@
     // todo: fill in all these functions - they'll help you!
 
     hasRowConflictAt: function(rowIndex){
-      return false; // fixme
+      var count = 0;
+      for (var i = 0; i < this.attributes[rowIndex].length; i++) {
+        if (this.attributes[rowIndex][i] === 1) {
+          count++;
+        }
+      }
+      if (count > 1) {
+        return true;
+      }
+      return false;
     },
 
     hasAnyRowConflicts: function(){
+      for (var i = 0; i < this.attributes.n; i++) {
+        if (this.hasRowConflictAt(i)) {
+          return true;
+        }
+      }
       return false; // fixme
     },
 
     hasColConflictAt: function(colIndex){
+      var count = 0;
+      for (var i =0; i < this.attributes.n; i++) {
+        if (this.attributes[i][colIndex] === 1) {
+          count++;
+        }
+      }
+      if (count > 1) {
+        return true;
+      }
       return false; // fixme
     },
 
     hasAnyColConflicts: function(){
+      for (var i = 0; i < this.attributes[0].length; i++) {
+        if (this.hasColConflictAt(i)) {
+          return true;
+        }
+      }
       return false; // fixme
     },
 
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow){
+      var colNum = majorDiagonalColumnIndexAtFirstRow;
+      var count = 0;
+      for (var i = 0; i < this.attributes.n; i++) {
+        if ((colNum+i > -1) && this.attributes[i][colNum+i] === 1) {
+          count++;
+        }
+      }
+      if (count > 1) {
+        return true;
+      }
       return false; // fixme
     },
 
     hasAnyMajorDiagonalConflicts: function(){
+      for (var i = -(this.attributes.n+1); i < this.attributes.n; i++) {
+        if (this.hasMajorDiagonalConflictAt(i)) {
+          return true;
+        }
+      }
       return false; // fixme
     },
 
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow){
+      var colNum = minorDiagonalColumnIndexAtFirstRow;
+      var count = 0;
+      for (var i = 0; i<this.attributes.n; i++){
+        if(this._isInBounds(i, colNum - i) && this.attributes[i][colNum - i] === 1){
+          count++;
+        }
+      }
+      if (count>1){
+        return true;
+      }
       return false; // fixme
     },
 
     hasAnyMinorDiagonalConflicts: function(){
+      for (var i = 0; i < 2*(this.attributes.n)-1; i++ ){
+        if ( this.hasMinorDiagonalConflictAt(i)){
+          return true;
+        }
+      }
       return false; // fixme
     }
 
