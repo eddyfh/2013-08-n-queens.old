@@ -4,23 +4,43 @@
 window.findNRooksSolution = function(n){
   var board = new Board({n:n});
   var results = [];
+//displayBoard(board.rows());
+var checkRow = function(boardcopy, row, column){
+    //for( var column = 0; column < boardcopy.rows().length; column++ ){
+      debugger;
+      boardcopy.togglePiece(row, column);         // toggle piece
+      displayBoard(boardcopy.rows());
+      if(!boardcopy.hasAnyRooksConflicts()){      // check board; if no conflicts
+        debugger;
+        if ( row +1 < boardcopy.rows().length){   // if not last row
+          row +=1;
+          for (var i = 0; i < n; i++) {
+            //var prevState = boardcopy;
+            checkRow(boardcopy, row, i);
+          }
+          boardcopy.togglePiece(row-1, column);
+          //checkRow(boardcopy, row, 0);
+        } else{                                   // if last row
+          debugger;
+          results.push(board.rows());
+          console.log(results);
+          boardcopy.togglePiece(row, column);
+          //boardcopy = prevState;
+        }
+      } else {                                    // if there's a conflict
+        debugger;
+        boardcopy.togglePiece(row, column);
+//        boardcopy = prevState;
+        //checkRow(boardcopy,row, column+1);
+        }
+      //}     For loop
 
-var checkRow = function(boardcopy, row){
-  for ( var column = 0; column < boardcopy.rows().length; column++ ){
-    boardcopy.togglePiece(row, column);
-    if(!boardcopy.hasAnyRooksConflicts()){
-      var newrow = row+1;
-      if ( newrow < boardcopy.rows().length){
-        checkRow(boardcopy, newrow);
-      } else{
-        results.push(board.rows());
-      }
-    } else {
-      boardcopy.togglePiece(row, column);
-      }
-    }
   };
-  checkRow(board, 0);
+  
+  checkRow(board, 0, 0);
+    checkRow(board, 0, 1);
+      checkRow(board, 0, 2);
+        checkRow(board, 0, 3);
 };
 
 
